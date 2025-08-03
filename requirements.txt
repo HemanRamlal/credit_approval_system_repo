@@ -1,0 +1,5 @@
+django
+django-rest-framework
+openpyxl
+psycopg2
+celery
