@@ -2,7 +2,7 @@ from django.db import models
 
 class Customer(models.Model):
     class Meta:
-        db_name="customer"
+        db_table="customer"
 
     customer_id = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=100)
@@ -14,7 +14,7 @@ class Customer(models.Model):
 
 class Loan(models.Model):
     class Meta:
-        db_name="loan"
+        db_table="loan"
 
     customer_id = models.IntegerField()
     loan_id = models.AutoField(primary_key=True)
