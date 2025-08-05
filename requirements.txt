@@ -1,7 +1,0 @@
-django
-django-rest-framework
-pandas
-openpyxl
-psycopg2
-celery
-python-dotenv

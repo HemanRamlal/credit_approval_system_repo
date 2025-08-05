@@ -1,10 +1,4 @@
-create role cas_user with login password 'Polp0+';
-
-create database credit_approval_system;
-grant connect, create, temp on database credit_approval_system to cas_user;
 \c credit_approval_system
-
-grant create on schema public to cas_user;
 
 create table customer (
   customer_id serial primary key,
