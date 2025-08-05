@@ -1,0 +1,51 @@
+services:
+  redis:
+    container_name: redis
+    image: redis:8.0.3-alpine
+
+  db:
+    container_name: db
+    build:
+      context: ./db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Polp0+
+      - POSTGRES_DB=credit_approval_system
+  
+  django:
+    container_name: django
+    build:
+      context: ./credit_approval_system
+    command: /bin/sh -c "sleep 5 && python manage.py runserver 0.0.0.0:8000"
+    ports:
+      - 8001:8000
+    volumes:
+      - ./credit_approval_system:/usr/app/src
+    environment:
+      - SECRET_KEY=django-insecure-vp-fyt$qt^=ejc20fbli(f$7so#_q2=lq18^qit$imq7ktg%lw
+      - DB_NAME=credit_approval_system
+      - DB_USER=postgres
+      - DB_PASSWORD=Polp0+
+      - DB_HOST=db
+      - DB_PORT=5432
+    depends_on:
+      - db
+      - redis
+    
+  celery:
+    container_name: celery
+    build:
+      context: ./credit_approval_system
+    command: celery --app=credit_approval_system worker -l INFO 
+    volumes:
+      - ./credit_approval_system:/usr/app/src
+    environment:
+      - SECRET_KEY='django-insecure-vp-fyt$qt^=ejc20fbli(f$7so#_q2=lq18^qit$imq7ktg%lw'
+      - DB_NAME=credit_approval_system
+      - DB_USER=postgres
+      - DB_PASSWORD=Polp0+
+      - DB_HOST=db
+      - DB_PORT=5432
+    depends_on:
+      - db
+      - redis
