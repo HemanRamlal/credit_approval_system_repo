@@ -9,7 +9,7 @@ from dateutil.relativedelta import relativedelta
 @api_view(['POST'])
 def register_customer(request):
   data = request.data
-  approved_limit = nearest_lakh(Decimal(data.get('monthly_salary') * 36))
+  approved_limit = nearest_lakh(Decimal(data['monthly_salary'] * 36))
   customer = Customer.objects.create(
     customer_id=data['customer_id'],
     first_name=data['first_name'],
@@ -169,7 +169,7 @@ def view_loans(request, customer_id):
     return Response({'error': 'Customer not found'}, status=status.HTTP_404_NOT_FOUND)
 
 def nearest_lakh(amount):
-  return round(amount/10**5) * 10**5
+  return round(amount/(10**5)) * (10**5)
 
 def calc_emi(loan_amount, interest_rate, tenure):
   interest_rate /= 100
